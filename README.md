@@ -1,6 +1,6 @@
 # Ruboty::Moneta
 
-Store Ruboty's memory in backend use [moneta](https://github.com/minad/moneta).
+Store Ruboty's memory in backend via [moneta](https://github.com/minad/moneta).
 
 
 ## Installation
@@ -40,7 +40,7 @@ Sqlite3のfileパラメータを指定したいときは下記のようになり
 
 #### BackendType == memory
 
-```ruby:Gemfile
+```ruby
 gem 'ruboty-moneta'
 ```
 
@@ -48,7 +48,7 @@ gem 'ruboty-moneta'
 
 ##### Gemfile
 
-```ruby:Gemfile
+```ruby
 gem 'ruboty-moneta'
 ```
 
@@ -61,12 +61,12 @@ MONETA_FILE_DIR="./db"
 
 #### BackendType == sqlite
 
-```ruby:Gemfile
+```ruby
 gem 'ruboty-moneta'
 gem 'sqlite3'
 ```
 
-```shell:.dotenv
+```shell
 MONETA_BACKEND="Sqlite"
 MONETA_SQLITE_FILE="./ruboty.db"
 ```
