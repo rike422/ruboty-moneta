@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Store Ruboty's memory via Moneta}
   spec.description   = %q{Store Ruboty's memory via Moneta}
-  spec.homepage      = "https://githu.com/rike422/ruboty-moneta"
+  spec.homepage      = "https://github.com/rike422/ruboty-moneta"
   spec.license       = "MIT"
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
