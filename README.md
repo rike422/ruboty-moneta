@@ -18,7 +18,7 @@ gem 'ruboty-moneta'
 please setting [backend_type](https://github.com/minad/moneta#supported-backends) to MONETA_BACKEND
 
 
-```
+```shell
  MONETA_BACKEND="{backend_type}"
 ```
 
@@ -38,15 +38,13 @@ Sqlite3のfileパラメータを指定したいときは下記のようになり
 
 ### example
 
-#### BackendType == memory
+#### use memory
 
 ```ruby
 gem 'ruboty-moneta'
 ```
 
-#### BackendType == File
-
-##### Gemfile
+#### use File
 
 ```ruby
 gem 'ruboty-moneta'
@@ -54,12 +52,12 @@ gem 'ruboty-moneta'
 
 ##### dotenv
 
-```shell:.dotenv
+```shell
 MONETA_BACKEND="File"
 MONETA_FILE_DIR="./db"
 ```
 
-#### BackendType == sqlite
+#### use Sqlite
 
 ```ruby
 gem 'ruboty-moneta'
@@ -79,7 +77,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ruboty-moneta. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/rike422/ruboty-moneta. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License
