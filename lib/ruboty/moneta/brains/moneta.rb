@@ -6,7 +6,8 @@ module Ruboty
       KEY = "brain"
 
       attr_reader :thread
-      env :MONETA_BACKEND, "use moneta db backend"
+      env :MONETA_BACKEND, "use moneta backend (default: memory)"
+      env :MONETA_BACKEND_SLAVE, "use cloning data to slaves (defalut: nil)", optional: true
       env :MONETA_SAVE_INTERVAL, "Interval sec to push data to moneta (default: 5)", optional: true
       env :MONETA_NAMESPACE, "Moneta name space (default: ruboty)", optional: true
 
@@ -23,42 +24,53 @@ module Ruboty
       # Override.
       def validate!
         super
-        Ruboty.die("#{self.class.usage}") unless backend
+        Ruboty.die("#{self.class.usage}") unless master_backend
       end
 
       private
 
       def push
-        store[KEY] = Marshal.dump(data)
+        master[KEY] = Marshal.dump(data)
       end
 
       def pull
-        if str = store[KEY]
+        if str = master[KEY]
           Marshal.load(str)
         end
       rescue TypeError
       end
 
-      def sync
-        loop do
-          wait
-          push
+      def replicate
+        slaves.each do |slave|
+          slave[KEY] = Marshal.dump(data)
         end
-      end
-
-      def backend
-        @backend ||= (ENV["MONETA_BACKEND"] || "Memory").to_sym
       end
 
       def wait
         sleep(interval)
       end
 
-      def store
-        @store||= ::Moneta.new(backend, moneta_option)
+      def sync
+        loop do
+          wait
+          push
+          replicate
+        end
       end
 
-      def moneta_option
+      def interval
+        (ENV["MONETA_SAVE_INTERVAL"] || 5).to_i
+      end
+
+      def master_backend
+        (ENV["MONETA_BACKEND"] || "Memory").to_sym
+      end
+
+      def slave_backend
+        eval(ENV["MONETA_BACKEND_SLAVE"]) || []
+      end
+
+      def fetch_option(backend)
         prefix = backend.to_s.underscore.upcase
         ENV.reduce({}) do |option, env|
           match = env[0].to_s.match(/MONETA_#{prefix}_([A-Z_]+)$/)
@@ -68,12 +80,22 @@ module Ruboty
         end
       end
 
-      def namespace
-        ENV["MONETA_NAMESPACE"] || "ruboty"
+      def master
+        @master ||= ::Moneta.new(master_backend, fetch_option(master_backend))
       end
 
-      def interval
-        (ENV["MONETA_SAVE_INTERVAL"] || 5).to_i
+      def slaves
+        @slaves ||=
+        if slave_backend.is_a?(String)
+          [::Moneta.new(slave_backend.to_sym, fetch_option(slave_backend))]
+        elsif slave_backend.is_a?(Array)
+          slave_backend.map do |slave_name|
+            pp slave_name
+            ::Moneta.new(slave_name.to_sym, fetch_option(slave_name))
+          end
+        else
+          []
+        end
       end
     end
   end

@@ -35,6 +35,24 @@ Sqlite3のfileパラメータを指定したいときは下記のようになり
  # MONETA_#{Backend}_#{Options Hash}
  MONETA_SQLITE_FILE = "{file path}"
 ```
+### Setting replicate
+
+複数のbackendに同時に書き込みます。
+MONETA_BACKENDで設定されたbackendのデータをmasterとして扱います。
+ストアの移行作業時などに使ってください
+
+```
+MONETA_BACKEND_SLAVE={"backend" or ["backend1", "backend2"]}
+
+# example
+
+# Replicate in YAML
+MONETA_BACKEND_SLAVE="YAML"
+
+# Replicate in YAML and File
+MONETA_BACKEND_SLAVE=["YAML", "File"]
+
+```
 
 ### example
 
