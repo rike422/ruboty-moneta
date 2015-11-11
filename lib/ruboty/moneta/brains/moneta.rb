@@ -30,19 +30,19 @@ module Ruboty
       private
 
       def push
-        master[KEY] = Marshal.dump(data)
+        master[KEY] = data
       end
 
       def pull
         if str = master[KEY]
-          Marshal.load(str)
+          str
         end
       rescue TypeError
       end
 
       def replicate
         slaves.each do |slave|
-          slave[KEY] = Marshal.dump(data)
+          slave[KEY] = data
         end
       end
 
@@ -67,7 +67,7 @@ module Ruboty
       end
 
       def slave_backend
-        eval(ENV["MONETA_BACKEND_SLAVE"])
+        eval(ENV["MONETA_BACKEND_SLAVE"] || "")
       rescue NameError
         ENV["MONETA_BACKEND_SLAVE"]
       end
