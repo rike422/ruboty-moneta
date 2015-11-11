@@ -50,8 +50,6 @@ gem 'ruboty-moneta'
 gem 'ruboty-moneta'
 ```
 
-##### dotenv
-
 ```shell
 MONETA_BACKEND="File"
 MONETA_FILE_DIR="./db"
