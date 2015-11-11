@@ -67,7 +67,9 @@ module Ruboty
       end
 
       def slave_backend
-        eval(ENV["MONETA_BACKEND_SLAVE"]) || []
+        eval(ENV["MONETA_BACKEND_SLAVE"])
+      rescue NameError
+        ENV["MONETA_BACKEND_SLAVE"]
       end
 
       def fetch_option(backend)
@@ -90,7 +92,6 @@ module Ruboty
           [::Moneta.new(slave_backend.to_sym, fetch_option(slave_backend))]
         elsif slave_backend.is_a?(Array)
           slave_backend.map do |slave_name|
-            pp slave_name
             ::Moneta.new(slave_name.to_sym, fetch_option(slave_name))
           end
         else
