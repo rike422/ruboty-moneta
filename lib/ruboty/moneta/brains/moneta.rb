@@ -30,11 +30,11 @@ module Ruboty
       private
 
       def push
-        master[KEY] = data
+        master[key] = data
       end
 
       def pull
-        if str = master[KEY]
+        if str = master[key]
           str
         end
       rescue TypeError
@@ -42,7 +42,7 @@ module Ruboty
 
       def replicate
         slaves.each do |slave|
-          slave[KEY] = data
+          slave[key] = data
         end
       end
 
@@ -72,6 +72,10 @@ module Ruboty
         ENV["MONETA_BACKEND_SLAVE"]
       end
 
+      def namespace
+        ENV["MONETA_NAMESPACE"] || "ruboty"
+      end
+
       def fetch_option(backend)
         prefix = backend.to_s.underscore.upcase
         ENV.reduce({}) do |option, env|
@@ -97,6 +101,10 @@ module Ruboty
         else
           []
         end
+      end
+
+      def key
+        @key ||= "#{namespace}:#{KEY}"
       end
     end
   end
