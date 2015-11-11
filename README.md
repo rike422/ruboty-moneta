@@ -48,9 +48,12 @@ MONETA_BACKEND_SLAVE={"backend" or ["backend1", "backend2"]}
 
 # Replicate in YAML
 MONETA_BACKEND_SLAVE="YAML"
+MONETA_YAML_FILE="./ruboty.yml"
 
 # Replicate in YAML and File
 MONETA_BACKEND_SLAVE=["YAML", "File"]
+MONETA_FILE_DIR="./db"
+MONETA_YAML_FILE="./ruboty.yml"
 
 ```
 
